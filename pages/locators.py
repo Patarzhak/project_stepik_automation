@@ -1,6 +1,11 @@
 from selenium.webdriver.common.by import By
 
 
+class BasketPageLocators():
+    CART_BUTTON = (By.XPATH, "//span/a[contains(text(), 'View basket')]")
+    BASKET_ITEM = (By.CSS_SELECTOR, "div.basket-items")
+    EMPTY_CART_MESSAGE = (By.XPATH,"//p[contains(text(), 'Your basket is empty')]")
+
 class MainPageLocators():
     pass
 

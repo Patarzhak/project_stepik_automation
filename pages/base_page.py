@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import math
 from .locators import ProductPageLocators
 from .locators import BasePageLocators
+from .locators import BasketPageLocators
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
@@ -30,13 +31,17 @@ class BasePage():
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
         
-        try:
-            alert = self.browser.switch_to.alert
-            alert_text = alert.text
-            print(f"Your code: {alert_text}")
-            alert.accept()
-        except NoAlertPresentException:
-            print("No second alert presented")
+        # try:
+        #     alert = self.browser.switch_to.alert
+        #     alert_text = alert.text
+        #     print(f"Your code: {alert_text}")
+        #     alert.accept()
+        # except NoAlertPresentException:
+        #     print("No second alert presented")
+
+    def go_to_basket_page(self):
+        link = self.browser.find_element(*BasketPageLocators.CART_BUTTON)
+        link.click()
 
     def __init__(self, browser, url, timeout=10):
         self.browser = browser

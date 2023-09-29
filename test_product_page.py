@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 import time
 from .pages.product_page import ProductPage
 from .pages.basket_page import BasketPage
+from .pages.login_page import LoginPage
+import faker
 
 
 
@@ -25,6 +27,35 @@ from .pages.basket_page import BasketPage
 #     page.shoul_be_name_match_product_name()
 #     page.should_be_prices_checked()
 #     time.sleep(5)
+
+
+class TestUserAddToBasketFromProductPage():
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/accounts/login/"
+        page = LoginPage(browser, link)
+        page.open()
+        f = faker.Faker()
+        email = f.email()
+        password = f.password()
+        page.register_new_user(email = email, password=password)
+        page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "https://selenium1py.pythonanywhere.com/ru/catalogue/hacking-exposed-wireless_208/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "https://selenium1py.pythonanywhere.com/ru/catalogue/hacking-exposed-wireless_208/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.should_be_add_to_cart()
+        page.shoul_be_name_match_product_name()
+        page.should_be_prices_checked()
+
 
 @pytest.mark.xfail(reason="fixing this bug right now")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
